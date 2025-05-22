@@ -52,16 +52,23 @@ scene.add(lightHelper, gridHelper);
 
 function addStar(){
   const geometry = new THREE.SphereGeometry(2, 20, 20);
-  const material = new THREE.MeshStandardMaterial({color: "golden"})
-  const star = new THREE.Mesh(geometry, material); 
+  // const material = new THREE.MeshStandardMaterial({color: "yellow"})
+  const star = new THREE.Mesh(
+    geometry,
+    new THREE.MeshStandardMaterial(
+      {map : imageTexture,
+       normalMap: imageNormal,
+      })
+  ); 
 
-  const [x,y,z] = Array(3).fill(0).map(() => THREE.MathUtils.randFloatSpread(1000) );
+  const [x,y,z] = Array(3).fill(0).map(() => THREE.MathUtils.randFloatSpread(200) );
   star.position.set(x,y,z);
   scene.add(star);
 
 }
 
-const imageTexture = new THREE.TextureLoader().load("./images/images.jpg");
+const imageTexture = new THREE.TextureLoader().load("./images/Ground080_1K-JPG/Ground080_1K-JPG_Color.jpg");
+const imageNormal = new THREE.TextureLoader().load("./images/Ground080_1K-JPG/Ground080_1K-JPG_NormalDX.jpg");
 
 // scene.background =(imageTexture);
 const controls = new OrbitControls(camera, renderer.domElement);
