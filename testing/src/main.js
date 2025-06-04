@@ -2,7 +2,7 @@
 import "./style.css"
 import * as THREE from 'three';
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-
+import { GLTFLoader } from "three/examples/jsm/Addons.js";
 // scene
 
 const scene = new THREE.Scene();
@@ -12,6 +12,26 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / innerHeight, 0.1, 1000);
 camera.position.z = 30;
 
+// gltf (gl Transmition Format) loader
+const gltfLoader = new GLTFLoader();
+
+gltfLoader.load("../meshes/donut.gltf",
+  function onLoad(gltf){
+      gltf.scene.traverse((child) => {
+        if (child.isMesh){
+            child.material = new THREE.MeshStandardMaterial({color : 0x0f0f0f});
+        }
+      })
+      gltf.scene.scale.set(10, 10, 10);
+      scene.add(gltf.scene);
+  },
+   
+  undefined,
+
+  function onError(error){
+    console.log(error);
+  }
+)
 
 // webgl renderer
 const renderer = new THREE.WebGLRenderer({
@@ -33,11 +53,11 @@ scene.add(torus);
 
 
 const pointLight = new THREE.PointLight(0xffffff);
-pointLight.intensity = 100;
-pointLight.position.set(8,4,4);
+pointLight.intensity = 0;
+pointLight.position.set(0,-20,0);
 
 const ambientLight = new THREE.AmbientLight(0xffffff);
-ambientLight.intensity = 3;
+ambientLight.intensity = 30;
 scene.add(pointLight, ambientLight);
 
 
