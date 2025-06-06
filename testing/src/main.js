@@ -15,25 +15,40 @@ camera.position.z = 30;
 // gltf (gl Transmition Format) loader
 const gltfLoader = new GLTFLoader();
 
-gltfLoader.load("../meshes/donut.gltf",
-  function onLoad(gltf){
-      gltf.scene.traverse((child) => {
-        if (child.isMesh){
-            child.material = new THREE.MeshStandardMaterial({color : 0x0f0f0f});
+let donutMesh;
+
+function loadDonut(){
+    return new Promise((resolve, reject) =>{
+      gltfLoader.load("../meshes/donut.glb",
+        function onLoad(gltf){
+            let mesh = gltf.scene.getObjectByProperty("isMesh", true);
+            mesh.material = new THREE.MeshStandardMaterial({
+              color: 0x0f0f0f
+            });
+            mesh.scale.set(5,5,5);
+            // scene.add(mesh);
+
+            resolve (mesh);
+        },
+        
+        undefined,
+
+        function onError(error){
+          console.log(error);
+          reject(error);
         }
-      })
-      gltf.scene.scale.set(10, 10, 10);
-      scene.add(gltf.scene);
+      );
+    });
+}
 
-      console.log(donutGroup);
-  },
-   
-  undefined,
+loadDonut().then(mesh => {
+    donutMesh = mesh;
+});
 
-  function onError(error){
-    console.log(error);
-  }
-)
+// here donutMesh is underfined
+// donutMesh.position.x = 5;
+// scene.add(donutMesh);
+console.log(donutMesh);
 
 // webgl renderer
 const renderer = new THREE.WebGLRenderer({
