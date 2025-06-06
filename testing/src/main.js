@@ -20,10 +20,9 @@ donutMesh.scale.set(5,5,5 )
 donutMesh.material = new THREE.MeshStandardMaterial({color: 0xb35a1f});
 scene.add(donutMesh);
 
-
 // webgl renderer
 const renderer = new THREE.WebGLRenderer({
-  canvas: document.querySelector("#bg"),
+	canvas: document.querySelector("#bg"),
 });
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -59,19 +58,19 @@ scene.add(lightHelper, gridHelper);
 
 
 function addStar(){
-  const geometry = new THREE.SphereGeometry(2, 20, 20);
-  // const material = new THREE.MeshStandardMaterial({color: "yellow"})
-  const star = new THREE.Mesh(
-    geometry,
-    new THREE.MeshStandardMaterial(
-      {map : imageTexture,
-       normalMap: imageNormal,
-      })
-  ); 
+	const geometry = new THREE.SphereGeometry(2, 20, 20);
+	// const material = new THREE.MeshStandardMaterial({color: "yellow"})
+	const star = new THREE.Mesh(
+		geometry,
+		new THREE.MeshStandardMaterial(
+			{map : imageTexture,
+			 normalMap: imageNormal,
+			})
+	); 
 
-  const [x,y,z] = Array(3).fill(0).map(() => THREE.MathUtils.randFloatSpread(200) );
-  star.position.set(x,y,z);
-  scene.add(star);
+	const [x,y,z] = Array(3).fill(0).map(() => THREE.MathUtils.randFloatSpread(200) );
+	star.position.set(x,y,z);
+	scene.add(star);
 
 }
 
@@ -82,19 +81,19 @@ const imageNormal = new THREE.TextureLoader().load("./images/Ground080_1K-JPG/Gr
 const controls = new OrbitControls(camera, renderer.domElement);
 
 for (let i = 0; i < 200; i++){
-  addStar();
+	addStar();
 }
 // main loop
 function animate(){
-  requestAnimationFrame(animate);
+	requestAnimationFrame(animate);
 
-  // torus.rotation.x += 0.006;
-  // torus.rotation.y += 0.005;
-  // torus.rotation.z += 0.05;
+	// torus.rotation.x += 0.006;
+	// torus.rotation.y += 0.005;
+	// torus.rotation.z += 0.05;
 
-  controls.update();
-  
-  renderer.render(scene, camera);
+	controls.update();
+	
+	renderer.render(scene, camera);
 }
 
 animate();
