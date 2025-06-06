@@ -24,6 +24,8 @@ gltfLoader.load("../meshes/donut.gltf",
       })
       gltf.scene.scale.set(10, 10, 10);
       scene.add(gltf.scene);
+
+      console.log(donutGroup);
   },
    
   undefined,
