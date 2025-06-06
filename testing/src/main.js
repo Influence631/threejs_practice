@@ -1,8 +1,8 @@
 
 import "./style.css"
 import * as THREE from 'three';
-import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 // scene
 
 const scene = new THREE.Scene();
@@ -14,41 +14,12 @@ camera.position.z = 30;
 
 // gltf (gl Transmition Format) loader
 const gltfLoader = new GLTFLoader();
+const donutGlb = await gltfLoader.loadAsync("../meshes/donut.glb");
+const donutMesh = donutGlb.scene.getObjectByProperty("isMesh", true);
+donutMesh.scale.set(5,5,5 )
+donutMesh.material = new THREE.MeshStandardMaterial({color: 0xb35a1f});
+scene.add(donutMesh);
 
-let donutMesh;
-
-function loadDonut(){
-    return new Promise((resolve, reject) =>{
-      gltfLoader.load("../meshes/donut.glb",
-        function onLoad(gltf){
-            let mesh = gltf.scene.getObjectByProperty("isMesh", true);
-            mesh.material = new THREE.MeshStandardMaterial({
-              color: 0x0f0f0f
-            });
-            mesh.scale.set(5,5,5);
-            // scene.add(mesh);
-
-            resolve (mesh);
-        },
-        
-        undefined,
-
-        function onError(error){
-          console.log(error);
-          reject(error);
-        }
-      );
-    });
-}
-
-loadDonut().then(mesh => {
-    donutMesh = mesh;
-});
-
-// here donutMesh is underfined
-// donutMesh.position.x = 5;
-// scene.add(donutMesh);
-console.log(donutMesh);
 
 // webgl renderer
 const renderer = new THREE.WebGLRenderer({
@@ -60,12 +31,12 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 
 
 // camera.position.setZ(30);
-// objects in a scene
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
-const material = new THREE.MeshStandardMaterial({color: 0xeA9});
-const torus = new THREE.Mesh(geometry, material);
+// // objects in a scene
+// const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+// const material = new THREE.MeshStandardMaterial({color: 0xeA9});
+// const torus = new THREE.Mesh(geometry, material);
 
-scene.add(torus);
+// scene.add(torus);
 
 
 
@@ -117,8 +88,8 @@ for (let i = 0; i < 200; i++){
 function animate(){
   requestAnimationFrame(animate);
 
-  torus.rotation.x += 0.006;
-  torus.rotation.y += 0.005;
+  // torus.rotation.x += 0.006;
+  // torus.rotation.y += 0.005;
   // torus.rotation.z += 0.05;
 
   controls.update();
